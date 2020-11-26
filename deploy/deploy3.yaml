@@ -1,0 +1,20 @@
+## Update Image in Deployment ##
+
+kubectl set image deploymeny/deployment_name podname=newimage-name
+
+## Check status of Deployment ##
+
+kubectl rollout status deploymeny/deployment_name
+
+## Check Rollout Histroy ##
+
+kubectl rollout history deployment nginx
+
+## Rollback to Previuos Deployment ##
+
+kubectl rollout undo deploymeny/deployment_name
+
+## Rollback to a Particular Revision ##
+
+kubectl rollout undo deploymeny/deployment_name --to-revision 2
+

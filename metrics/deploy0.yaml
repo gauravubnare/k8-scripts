@@ -1,0 +1,15 @@
+# Download the Deployment file
+wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+# Edit args in the Deployment 
+vim components.yaml
+
+--kubelet-preferred-address-types=InternalIP
+--kubelet-insecure-tls
+
+# Apply the YAML
+kubectl apply -f components.yaml
+
+# Check status
+kubectl top nodes
+kubectl top pods

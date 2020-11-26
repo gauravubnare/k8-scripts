@@ -1,0 +1,2 @@
+bash <(curl -Ss http://192.168.122.1/k8/install/install-master.sh)
+bash <(curl -Ss http://192.168.122.1/k8/install/install-worker.sh)

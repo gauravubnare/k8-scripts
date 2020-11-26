@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+        name: myrs
+spec:
+        replicas: 2
+        selector:
+                matchLabels:
+                        app: frontend
+        template:
+                 metadata:
+                        name: mypod
+                        labels:
+                              app: frontend
+                 spec:
+                        containers:
+                         - name: webapp
+                           image: nginx
+                           ports:
+                                   - containerPort: 80
+
+## list RS
+# 
+# kubect get rs
+#
+## Scale replica set
+#
+# kubect scale --replicas=5 rs/myrs

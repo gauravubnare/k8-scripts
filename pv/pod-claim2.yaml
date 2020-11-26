@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+        name: mypod
+spec:
+        containers:
+                - name: mydb
+                  image: mysql
+                  env:
+                          - name: MYSQL_ROOT_PASSWORD
+                            value: redhat
+                  volumeMounts:
+                          - name: myvol
+                            mountPath: "/var/lib/mysql"
+         volumes: 
+                - name: myvol
+                  persistentVolumeClaim:
+                          claimName: myapp-pvc
+...

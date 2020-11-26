@@ -1,0 +1,24 @@
+## Daemon Set ##
+#
+# A DaemonSet ensures that all (or some) Nodes run a copy of a Pod. As nodes are added to the cluster, Pods are added to them
+#
+# Eg : kubeproxy, Network driver deployed in Cluster
+#
+##
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+        name: mydaemon
+spec:
+                spec:
+                        containers:
+                        - name: mywebapp
+                          image: nginx:latest
+                          env:
+                                  - name: app
+                                    value: web
+                          ports:
+                                  - containerPort: 80
+                                    containerPort: 443
+...

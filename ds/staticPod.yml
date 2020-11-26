@@ -1,0 +1,26 @@
+## Static Pods ##
+#
+# Static Pods are managed directly by the kubelet daemon on a specific node, without the API server observing them. Unlike Pods that are managed by the control plane (for example, a Deployment); instead, the kubelet watches each static Pod (and restarts it if it fails).
+#
+# Static Pods are created under /etc/kubernets/manifest dir in worker nodes 
+#
+##
+
+## worker node ##
+
+cd /etc/kubernetes/manifests/
+
+vim pod.yaml 
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+        name: mypod
+spec:
+        containers:
+                - name: myapp
+                  image: ubuntu
+...
+
+

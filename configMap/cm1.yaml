@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+        name: dbconfig
+data:
+        dbhost: 127.0.0.1
+        dbname: wordpress
+        mysql:
+            [mysqld]
+            port=3307

@@ -1,0 +1,28 @@
+## Basic Syntax ##
+
+apiVersion: v1
+kind: Config
+cluster: 
+        - name: prod
+          cluster:
+                  certificate-authority: ca.crt
+                  server: https://192.168.122.71:6442
+
+
+currnet-context: user1@prod # default login 
+
+contexts: 
+        - name: tom@prod
+          cluster:
+                  certificate-authority: ca.crt
+                  server: https://192.168.122.71:6442
+                  namespace: dev # namespace to work in
+
+users:
+        - name: tom
+          user:
+                  client-certificate: tom.crt
+                  client-key: tom.key
+# use different context
+#
+# kubectl config use-context user2@dev

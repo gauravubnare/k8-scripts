@@ -1,0 +1,58 @@
+## Master Node Setup ##
+
+# Add Kubernetes Repo #
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+# Install kubeam, kubelet and kubectl #
+
+apt update -y 
+apt -y install vim kubelet kubeadm kubectl
+
+# Disable Swap #
+
+# Install Docker #
+
+apt install docker docker.io -y
+systemctl enable docker
+systemctl start docker
+
+# Pull Master Component Images #
+
+kubeadm config images pull
+
+# Initialize Cluster #
+
+kubeadm init
+
+# configure kubectl #
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+# Check Cluster Info #
+
+kubectl cluster-info
+
+# Install Network Plugin (Calico) #
+
+kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+
+# List pods deployed by Network Plugin #
+
+kubectl get pods --all-namespaces
+
+# Check node status # 
+
+kubectl get nodes -o wide
+
+# Master Ports
+
+TCP     6443*       Kubernetes API Server
+TCP     2379-2380   etcd server client API
+TCP     10250       Kubelet API
+TCP     10251       kube-scheduler
+TCP     10252       kube-controller-manager
+TCP     10255       Read-Only Kubelet API

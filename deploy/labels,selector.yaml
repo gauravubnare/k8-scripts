@@ -1,0 +1,22 @@
+## Add Labels to Pods
+---
+apiVersion: v1
+kind: Pod
+metadata:
+        name: mypod
+        labels:
+                app: prod
+spec:
+        containers:
+                - name: myapp
+                  image: ubuntu
+        tolerations:
+                - key: "app"
+                  operator: "Equal"
+                  value: "red"
+                  effect: "NoSchedule"
+...
+
+## List pod by a specific label ##
+#
+# kubectl get pods --selector app=prod

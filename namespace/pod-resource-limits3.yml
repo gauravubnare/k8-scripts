@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Pod
+metadata: 
+        name: mypod
+spec:
+     containers:
+         - name: myapp
+           image: nginx
+           ports: 
+                - containerPort: 8080
+           resources:
+                   requests:
+                           cpu: "1"
+                           memory: "1Gi"
+                   limits:
+                           cpu: "2"
+                           memory: "2Gi"
+...

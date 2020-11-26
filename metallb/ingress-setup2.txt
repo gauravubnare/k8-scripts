@@ -1,0 +1,21 @@
+## Ingress Setup ##
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/static/provider/baremetal/deploy.yaml
+
+# Wait for it to deploy #
+
+kubectl get all -n ingress-nginx
+
+# Make Service as LoadBalancer #
+
+kubectl edit service ingress-nginx-controller -n ingress-nginx 
+
+# Get Service External IP #
+
+kubectl get services -n ingress-nginx 
+
+# Test it #
+
+curl http://service_ip  (The output should give a 404 Not Found error)
+
+# SSL Setup - https://medium.com/better-programming/how-to-expose-your-services-with-kubernetes-ingress-7f34eb6c9b5a #

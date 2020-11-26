@@ -1,0 +1,22 @@
+## Add lable to node ##
+#
+# kubectl label node node_name env=dev
+#
+## List Labels ##
+#
+# kubectl get nodes --show-lables
+#
+##
+#
+---
+apiVersion: v1
+kind: Pod
+metadata:
+        name: mypod
+spec:
+        nodeSelector:
+                env: dev
+        containers:
+                - name: myapp
+                  image: ubuntu
+...

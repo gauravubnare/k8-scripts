@@ -1,0 +1,23 @@
+## Add taint to node ##
+# Taints are only used to restrict nodes
+#
+# kubectl taint node node_name app=red:NoSchedule | PreferNoSchedule | NoExecute
+#
+## 
+---
+apiVersion: v1
+kind: Pod
+metadata:
+        name: mypod
+spec:
+        nodeSelector:
+                env: dev
+        containers:
+                - name: myapp
+                  image: ubuntu
+        tolerations:
+                - key: "app"
+                  operator: "Equal"
+                  value: "red"
+                  effect: "NoSchedule"
+...                 

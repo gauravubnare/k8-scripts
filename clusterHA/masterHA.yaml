@@ -1,0 +1,5 @@
+# Master Node 1
+kubeadm init --control-plane-endpoint="loadbalancer ip:6443" --upload-certs --apiserver-advertise-address=master1 
+
+# Deploy Network Driver
+kubectl --kubeconfig=/etc/kubernetes/admin.conf create -f https://docs.projectcalico.org/v3.15/manifests/calico.yaml

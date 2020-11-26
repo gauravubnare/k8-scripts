@@ -1,0 +1,38 @@
+## Worker Node Setup ##
+
+# Add Kubernetes Repo #
+
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+# Install kubeam, kubelet and kubectl #
+
+apt update -y 
+apt -y install vim kubelet kubeadm
+
+# Disable Swap #
+
+# Install Docker #
+
+apt install docker docker.io -y
+systemctl enable docker
+systemctl start docker
+
+# Copy the join token generated while initializing kubeadm #
+
+# To generate token on master #
+
+kubeadm token create --print-join-command
+
+kubeadm join 192.168.122.206:6443 --token xmdd03.rjat8e3mqe6ulbqp \
+    --discovery-token-ca-cert-hash sha256:847b14ec839bcc855172cb4832b17429fa5f6804bfa2229047250c233e206942 
+
+# List nodes on Master Node #
+
+kubectl get nodes
+
+# Worker Ports
+
+TCP     10250       Kubelet API
+TCP     10255       Read-Only Kubelet API
+TCP     30000-32767 NodePort Services

@@ -1,0 +1,42 @@
+## Master Upgrade ##
+#
+
+1) Update kubeadm to one version above. like 1.16 to 1.17 even if 1.19 is avaiable (Update one by one version).
+
+# current version on master 1.16
+# first update the kubeadm pacakge
+#
+yum install kubeadm-1.17.0 kubelet-1.17.0 kubectl-1.17.0
+
+kubeadm upgrade plan
+
+kubedam upgrade apply v1.17.0
+
+yum install kubeadm-1.18.0 kubelet-1.18.0 kubectl-1.18.0
+
+kubeadm upgrade plan
+
+kubedadm upgrade apply v1.18.0
+
+
+## Worker Node ##
+#
+
+# from master node drain the woker node 
+
+kubectl drain k8-node1 # this will remove all pods from the node and mark the node as not-ready (un-schedulables)
+
+#Option kubectl cordon k8-node1 # this will not delete the pods this will only mark the nodes as not-ready un-sechdeulable
+
+yum update kubeadm-1.18.0 kubelet-1.18.0
+
+kubeadm upgrade node config --kubelet-version=1.18.0
+
+systemctl restart kubelet
+
+reboot
+
+# master node 
+kubectl uncordon k8-node1
+
+

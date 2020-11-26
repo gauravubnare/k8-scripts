@@ -1,0 +1,91 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+        name: sts-service
+spec:
+        clusterIP: None
+        ports:
+                - port: 3306
+                  targetPort: 3306
+        selector:
+                type: sts-backend
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+        name: sts-pv-0
+        labels:
+                type: sts
+spec:
+      persistentVolumeReclaimPolicy: Delete
+      capacity:
+              storage: 1Gi
+      accessModes:
+              - ReadWriteMany
+      nfs:
+              server: 192.168.122.48
+              path: /data/pv0
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+        name: sts-pv-1
+        labels:
+                type: sts
+spec:
+      persistentVolumeReclaimPolicy: Delete
+      capacity:
+              storage: 1Gi
+      accessModes:
+              - ReadWriteMany
+      nfs:
+              server: 192.168.122.48
+              path: /data/pv1
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+        name: mysts
+spec:
+        serviceName: "sts-service"
+        replicas: 1
+        selector: 
+                matchLabels:
+                        type: sts-backend
+        template:
+                
+                metadata:
+                        name: mydb-sts-pod
+                        labels:
+                               type: sts-backend
+                spec:
+
+                       containers:
+                               - name: sts-dbapp
+                                 image: mysql
+                                 env:
+                                         - name: MYSQL_ROOT_PASSWORD
+                                           value: redhat
+                                         - name: MYSQL_DATABASE
+                                           value: wordpress
+                                 volumeMounts:
+                                         - name: mysts-dbvol
+                                           mountPath: /var/lib/mysql
+                                 ports:
+                                         - containerPort: 3306
+        volumeClaimTemplates:
+                               - metadata:
+                                        name: mysts-dbvol
+                                 spec:
+                                        selector:
+                                                matchLabels:
+                                                        type: sts
+                                        accessModes:
+                                        - ReadWriteMany
+                                        resources:
+                                                requests:
+                                                        storage: 500Mi
+
+

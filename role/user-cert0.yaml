@@ -1,0 +1,12 @@
+# top private key
+openssl genrsa -out tom.key 2048
+
+# csr for tom
+openssl req -new -key tom.key -out tom.csr -subj "/CN=tom/O=dev"
+
+# download ca certs for the master
+scp root@k8-master:/etc/kubernetes/pki/ca.{crt,key} . 
+
+# sign certs with the ca
+openssl x509 -req -in tom.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out tom.crt -days 365
+

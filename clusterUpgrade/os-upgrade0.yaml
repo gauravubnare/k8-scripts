@@ -1,0 +1,33 @@
+## OS Upgrade ##
+#
+
+# Master  Node #
+
+# ubuntu
+apt-mark hold kubedam kubectl kubelet
+
+apt update -y && apt upgrade -y
+
+apt-mark hold kubedam kubectl kubelet
+
+reboot
+
+# centos
+
+yum upgrade -y --exclude=kubeadm,kubectl,kubelet
+
+reboot
+
+# Worker Node 
+# first drain node from the master node
+#
+# Note: drain node will delete all pods running on that node and mark node as not-ready
+#
+
+kubectl drain k8-node1
+
+yum upgrade -y --exclude=kubeadm,kubectl,kubelet
+
+reboot
+
+kubectl uncordon k8-node1
